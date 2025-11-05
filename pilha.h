@@ -26,7 +26,7 @@ Pilha* criar_pilha();
 
 void push(Pilha* pi, const char* texto);   // Empilhar
 char* pop(Pilha* pi);                      // Desempilhar
-void display(Pilha* pi);                   // Imprime o conteúdo da pilha
+void display(Pilha* pi);                   // Imprime o conteúdo contido na pilha
 void limparPilha(Pilha* pi);               // Esvazia a pilha
 void limpar_buffer();
 
