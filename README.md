@@ -5,10 +5,10 @@ Um projeto simples em C que implementa uma "To-Do List" (Lista de Tarefas) bási
 Este projeto foi criado como um exercício prático da faculdade para demonstrar o uso de pilhas em C, gerenciamento de memória (`malloc`/`free`) e manipulação de ponteiros.
 
 Alunos: 
-João Manoel Freire
-João Pedro Magalhães
-Rafael Maia
-Leonardo Freitas Barboza
+João Manoel Freire,
+João Pedro Magalhães,
+Rafael Maia e
+Leonardo Freitas Barboza.
 
 ## O Conceito da Pilha (LIFO)
 
