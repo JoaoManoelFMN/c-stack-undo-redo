@@ -1,11 +1,11 @@
 #ifndef PILHA_H
 #define PILHA_H
 
-#define COR_RESET   "\033[0m"
-#define COR_VERDE   "\033[0;32m"
+#define COR_RESET    "\033[0m"
+#define COR_VERDE    "\033[0;32m"
 #define COR_VERMELHO "\033[0;31m"
-#define COR_AMARELO "\033[1;33m"
-#define COR_CYAN    "\033[0;36m"
+#define COR_AMARELO  "\033[1;33m"
+#define COR_CYAN     "\033[0;36m"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,58 +26,14 @@ typedef struct Pilha{
     No* topo;
 } Pilha;
 
-
-// --- Protótipos das Funções ---
-
-/**
- * @brief Aloca memória e inicializa uma nova pilha.
- * @return Ponteiro para a nova pilha criada.
- */
 Pilha* criar_pilha();
-
-/**
- * @brief Adiciona um novo item (texto) ao topo da pilha.
- * @param pi Ponteiro para a pilha.
- * @param texto A string (tarefa) a ser adicionada.
- */
 void push(Pilha* pi, const char* texto); 
-
-/**
- * @brief Remove e retorna o item do topo da pilha.
- * @param pi Ponteiro para a pilha.
- * @return Ponteiro para a string removida (ou NULL se vazia).
- */
 char* pop(Pilha* pi); 
-
-/**
- * @brief Imprime todos os itens da pilha, do topo para a base.
- * @param pi Ponteiro para a pilha.
- */
 void display(Pilha* pi); 
-
-/**
- * @brief Remove todos os elementos da pilha, liberando a memória.
- * @param pi Ponteiro para a pilha.
- */
 void limparPilha(Pilha* pi);
-
-/**
- * @brief Verifica se a pilha está vazia.
- * @param pi Ponteiro para a pilha.
- * @return 1 (verdadeiro) se a pilha estiver vazia ou nula, 0 (falso) caso contrário.
- */
+void destruirPilha(Pilha* pi); // Nova função solicitada
 int estaVazia(Pilha* pi);
-
-/**
- * @brief Conta quantos itens existem atualmente na pilha.
- * @param pi Ponteiro para a pilha.
- * @return O número de itens (int) na pilha.
- */
 int contarItens(Pilha* pi);
-
-/**
- * @brief Limpa o buffer de entrada do teclado (stdin).
- */
 void limpar_buffer();
 
 #endif
