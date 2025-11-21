@@ -17,7 +17,7 @@ void push(Pilha* pi, const char* texto){
 
     novo_no->texto = strdup(texto); 
     if (novo_no->texto == NULL) {
-        perror("Erro ao duplicar string para a pilha");
+        perror(COR_VERMELHO "Erro ao duplicar string para a pilha" COR_RESET);
         free(novo_no);
         return;
     }
@@ -29,7 +29,6 @@ void push(Pilha* pi, const char* texto){
 }
 
 char* pop(Pilha* pi){
-    // Corrigido para usar a nova função
     if (estaVazia(pi)){ 
         printf(COR_VERMELHO "Erro: Pilha vazia.\n" COR_RESET);
         return NULL;
@@ -55,7 +54,7 @@ void display(Pilha* pi){
     No* atual = pi->topo;
     while (atual != NULL) {
         printf(COR_CYAN " ┌───────────────┐\n" COR_RESET);
-        printf(COR_CYAN " │ " COR_RESET "%s\n", atual->texto);
+        printf(COR_CYAN " │ " COR_RESET "%-13s" COR_CYAN " │\n", atual->texto);
         printf(COR_CYAN " └───────────────┘\n" COR_RESET);
 
         if (atual->prox != NULL)
@@ -70,7 +69,6 @@ void display(Pilha* pi){
 void limparPilha(Pilha* pi){
     if (pi == NULL) return;
 
-    // Corrigido para usar a nova função
     while (!estaVazia(pi)){ 
         char* texto = pop(pi);
         
@@ -80,10 +78,9 @@ void limparPilha(Pilha* pi){
     }
 }
 
-// Nova função implementada
 int estaVazia(Pilha* pi) {
     if (pi == NULL) {
-        return 1; // Uma pilha nula pode ser considerada "vazia"
+        return 1; 
     }
     return (pi->topo == NULL); 
 }
@@ -93,7 +90,6 @@ void limpar_buffer(){
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// Nova função implementada
 int contarItens(Pilha* pi){
     if (estaVazia(pi)) {
         return 0;

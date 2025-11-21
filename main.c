@@ -49,7 +49,6 @@ int main() {
             case 2: {
                 system(LIMPAR_TELA);
                 
-                // Corrigido para usar a nova função!
                 if (estaVazia(todo_list)) {
                     printf("\n--------------------------------------\n");
                     printf("Parabens! Sua lista esta vazia.\n");
@@ -72,7 +71,6 @@ int main() {
                 system(LIMPAR_TELA);
                 printf("--- Proximo Item a Fazer ---\n");
 
-                // Corrigido para usar a nova função!
                 if (estaVazia(todo_list)) {
                     printf("\nSua lista esta vazia.\n");
                 } else {
