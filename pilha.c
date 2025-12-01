@@ -1,5 +1,13 @@
 #include "pilha.h"
 
+// Caso o compilador reclame do strdup no Windows/ANSI estrito
+char* duplicar_string(const char* s) {
+    char* d = malloc(strlen(s) + 1);
+    if (d == NULL) return NULL;
+    strcpy(d, s);
+    return d;
+}
+
 Pilha* criar_pilha(){
     Pilha* pi = (Pilha*) malloc(sizeof(Pilha));
     if (pi != NULL){
@@ -12,20 +20,17 @@ void push(Pilha* pi, const char* texto){
     if (pi == NULL) return;
 
     No* novo_no = (No*) malloc(sizeof(No));
-
     if (novo_no == NULL) return;
 
-    novo_no->texto = strdup(texto); 
+    novo_no->texto = duplicar_string(texto); 
+    
     if (novo_no->texto == NULL) {
         perror(COR_VERMELHO "Erro ao duplicar string para a pilha" COR_RESET);
         free(novo_no);
         return;
     }
 
-    
     novo_no->prox = pi->topo;
-    
-   
     pi->topo = novo_no;
 
     printf(COR_VERDE "Item adicionado com sucesso.\n" COR_RESET);
@@ -40,9 +45,7 @@ char* pop(Pilha* pi){
     No* no_remover = pi->topo;
     char* texto_retornado = no_remover->texto;
 
-    
     pi->topo = no_remover->prox;
-
     free(no_remover); 
 
     return texto_retornado;
@@ -67,7 +70,6 @@ void display(Pilha* pi){
 
         atual = atual->prox;
     }
-
     printf(COR_CYAN "===== BASE =====\n" COR_RESET);
 }
 
@@ -76,25 +78,20 @@ void limparPilha(Pilha* pi){
 
     while (!estaVazia(pi)){ 
         char* texto = pop(pi);
-        
         if (texto != NULL){
             free(texto);
         }
     }
 }
 
-
 void destruirPilha(Pilha* pi){
     if (pi == NULL) return;
-
     limparPilha(pi); 
     free(pi);        
 }
 
 int estaVazia(Pilha* pi) {
-    if (pi == NULL) {
-        return 1; 
-    }
+    if (pi == NULL) return 1; 
     return (pi->topo == NULL); 
 }
 
@@ -104,9 +101,7 @@ void limpar_buffer(){
 }
 
 int contarItens(Pilha* pi){
-    if (estaVazia(pi)) {
-        return 0;
-    }
+    if (estaVazia(pi)) return 0;
     
     int count = 0;
     No* atual = pi->topo;
