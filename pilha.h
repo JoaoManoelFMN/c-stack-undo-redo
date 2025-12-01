@@ -26,12 +26,13 @@ typedef struct Pilha{
     No* topo;
 } Pilha;
 
+// Protótipos
 Pilha* criar_pilha();
 void push(Pilha* pi, const char* texto); 
 char* pop(Pilha* pi); 
 void display(Pilha* pi); 
 void limparPilha(Pilha* pi);
-void destruirPilha(Pilha* pi); // Nova função solicitada
+void destruirPilha(Pilha* pi);
 int estaVazia(Pilha* pi);
 int contarItens(Pilha* pi);
 void limpar_buffer();
