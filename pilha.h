@@ -24,6 +24,7 @@ typedef struct No{
 
 typedef struct Pilha{
     No* topo;
+    No* base;
 } Pilha;
 
 // Protótipos
@@ -35,8 +36,10 @@ void limparPilha(Pilha* pi);
 void destruirPilha(Pilha* pi);
 int estaVazia(Pilha* pi);
 int contarItens(Pilha* pi);
-void salvarPilha(Pilha* pi, char* nomeArquivo);
-void carregarPilha(Pilha* pi, char* nomeArquivo);
 void limpar_buffer();
+
+// Funções de Arquivo
+void salvarPilhaEmArquivo(Pilha* pi, const char* nomeArquivo);
+void carregarPilhaDeArquivo(Pilha* pi, const char* nomeArquivo);
 
 #endif
