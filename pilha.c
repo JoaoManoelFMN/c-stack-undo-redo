@@ -95,11 +95,6 @@ int estaVazia(Pilha* pi) {
     return (pi->topo == NULL); 
 }
 
-void limpar_buffer(){
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
 int contarItens(Pilha* pi){
     if (estaVazia(pi)) return 0;
     
@@ -110,4 +105,42 @@ int contarItens(Pilha* pi){
         atual = atual->prox;
     }
     return count;
+}
+
+// Função auxiliar recursiva para salvar na ordem correta (Base -> Topo)
+void salvar_recursivo(No* no, FILE* f) {
+    if (no == NULL) return;
+    salvar_recursivo(no->prox, f);
+    fprintf(f, "%s\n", no->texto);
+}
+
+void salvarPilha(Pilha* pi, char* nomeArquivo) {
+    FILE* f = fopen(nomeArquivo, "w");
+    if (f == NULL) return;
+    
+    // Salva apenas a lista principal
+    if (!estaVazia(pi)) {
+        salvar_recursivo(pi->topo, f);
+    }
+    fclose(f);
+}
+
+void carregarPilha(Pilha* pi, char* nomeArquivo) {
+    FILE* f = fopen(nomeArquivo, "r");
+    if (f == NULL) return; // Arquivo não existe ainda
+
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), f)) {
+        // Remove o \n do final
+        buffer[strcspn(buffer, "\n")] = 0;
+        if (strlen(buffer) > 0) {
+            push(pi, buffer);
+        }
+    }
+    fclose(f);
+}
+
+void limpar_buffer(){
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
