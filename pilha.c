@@ -1,146 +1,100 @@
 #include "pilha.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-// Caso o compilador reclame do strdup no Windows/ANSI estrito
-char* duplicar_string(const char* s) {
-    char* d = malloc(strlen(s) + 1);
-    if (d == NULL) return NULL;
-    strcpy(d, s);
-    return d;
-}
-
-Pilha* criar_pilha(){
-    Pilha* pi = (Pilha*) malloc(sizeof(Pilha));
-    if (pi != NULL){
-        pi->topo = NULL;
+Pilha* criar_pilha() {
+    Pilha* p = (Pilha*) malloc(sizeof(Pilha));
+    if (p) {
+        p->topo = NULL;
+        p->tamanho = 0;
     }
-    return pi;
+    return p;
 }
 
-void push(Pilha* pi, const char* texto){
-    if (pi == NULL) return;
+void liberarPilha(Pilha* p) {
+    if (!p) return;
+    limparPilha(p);
+    free(p);
+}
 
-    No* novo_no = (No*) malloc(sizeof(No));
-    if (novo_no == NULL) return;
+void push(Pilha* p, const char* nome_tarefa) {
+    if (!p) return;
+    NoPilha* novo = (NoPilha*) malloc(sizeof(NoPilha));
+    if (!novo) return;
 
-    novo_no->texto = duplicar_string(texto); 
+    strncpy(novo->tarefa.nome, nome_tarefa, sizeof(novo->tarefa.nome) - 1);
+    novo->tarefa.nome[sizeof(novo->tarefa.nome) - 1] = '\0';
     
-    if (novo_no->texto == NULL) {
-        perror(COR_VERMELHO "Erro ao duplicar string para a pilha" COR_RESET);
-        free(novo_no);
+    novo->prox = p->topo;
+    p->topo = novo;
+    p->tamanho++;
+}
+
+Tarefa* pop(Pilha* p) {
+    if (estaVazia(p)) return NULL;
+    NoPilha* temp = p->topo;
+    Tarefa* tarefa = (Tarefa*) malloc(sizeof(Tarefa));
+    if (!tarefa) return NULL;
+
+    *tarefa = temp->tarefa;
+    p->topo = temp->prox;
+    p->tamanho--;
+    free(temp);
+    return tarefa;
+}
+
+Tarefa* verTopo(Pilha* p) {
+    if (estaVazia(p)) return NULL;
+    return &(p->topo->tarefa);
+}
+
+int estaVazia(Pilha* p) {
+    return p == NULL || p->topo == NULL;
+}
+
+int contarItens(Pilha* p) {
+    return p ? p->tamanho : 0;
+}
+
+void limparPilha(Pilha* p) {
+    if (!p) return;
+    NoPilha* atual = p->topo;
+    while (atual) {
+        NoPilha* temp = atual;
+        atual = atual->prox;
+        free(temp);
+    }
+    p->topo = NULL;
+    p->tamanho = 0;
+}
+
+// Funções de arquivo (simuladas para compilar)
+void carregarPilhaDeArquivo(Pilha* p, const char* nome_arquivo) {
+    // Simulação de carregamento
+    printf(COR_AMARELO "Simulando carregamento de tarefas de %s...\n" COR_RESET, nome_arquivo);
+    // Exemplo de dados iniciais para o grafo
+    push(p, "Configurar ambiente");
+    push(p, "Implementar funcionalidade X");
+    push(p, "Testar funcionalidade X");
+}
+
+void salvarPilhaEmArquivo(Pilha* p, const char* nome_arquivo) {
+    // Simulação de salvamento
+    printf(COR_AMARELO "Simulando salvamento de tarefas em %s...\n" COR_RESET, nome_arquivo);
+}
+
+void exibirPilha(Pilha* p) {
+    if (estaVazia(p)) {
+        printf(COR_AMARELO "A lista de tarefas está vazia.\n" COR_RESET);
         return;
     }
-
-    novo_no->prox = pi->topo;
-    pi->topo = novo_no;
-
-    printf(COR_VERDE "Item adicionado com sucesso.\n" COR_RESET);
-}
-
-char* pop(Pilha* pi){
-    if (estaVazia(pi)){ 
-        printf(COR_VERMELHO "Erro: Pilha vazia.\n" COR_RESET);
-        return NULL;
-    }
-
-    No* no_remover = pi->topo;
-    char* texto_retornado = no_remover->texto;
-
-    pi->topo = no_remover->prox;
-    free(no_remover); 
-
-    return texto_retornado;
-}
-
-void display(Pilha* pi){
-    if (estaVazia(pi)){ 
-        printf(COR_AMARELO "Pilha vazia.\n" COR_RESET);
-        return;
-    }
-
-    printf(COR_CYAN "\n===== PILHA =====\n" COR_RESET);
-
-    No* atual = pi->topo;
-    while (atual != NULL) {
-        printf(COR_CYAN " ┌───────────────┐\n" COR_RESET);
-        printf(COR_CYAN " │ " COR_RESET "%-13s" COR_CYAN " │\n", atual->texto);
-        printf(COR_CYAN " └───────────────┘\n" COR_RESET);
-
-        if (atual->prox != NULL)
-            printf("        ↑\n");
-
+    printf(COR_AZUL "--- Tarefas ---\n" COR_RESET);
+    NoPilha* atual = p->topo;
+    int i = 1;
+    while (atual) {
+        printf("%d. %s\n", i++, atual->tarefa.nome);
         atual = atual->prox;
     }
-    printf(COR_CYAN "===== BASE =====\n" COR_RESET);
-}
-
-void limparPilha(Pilha* pi){
-    if (pi == NULL) return;
-
-    while (!estaVazia(pi)){ 
-        char* texto = pop(pi);
-        if (texto != NULL){
-            free(texto);
-        }
-    }
-}
-
-void destruirPilha(Pilha* pi){
-    if (pi == NULL) return;
-    limparPilha(pi); 
-    free(pi);        
-}
-
-int estaVazia(Pilha* pi) {
-    if (pi == NULL) return 1; 
-    return (pi->topo == NULL); 
-}
-
-int contarItens(Pilha* pi){
-    if (estaVazia(pi)) return 0;
-    
-    int count = 0;
-    No* atual = pi->topo;
-    while (atual != NULL){
-        count++;
-        atual = atual->prox;
-    }
-    return count;
-}
-
-// Função auxiliar recursiva para salvar na ordem correta (Base -> Topo)
-void salvar_recursivo(No* no, FILE* f) {
-    if (no == NULL) return;
-    salvar_recursivo(no->prox, f);
-    fprintf(f, "%s\n", no->texto);
-}
-
-void salvarPilha(Pilha* pi, char* nomeArquivo) {
-    FILE* f = fopen(nomeArquivo, "w");
-    if (f == NULL) return;
-    
-    // Salva apenas a lista principal
-    if (!estaVazia(pi)) {
-        salvar_recursivo(pi->topo, f);
-    }
-    fclose(f);
-}
-
-void carregarPilha(Pilha* pi, char* nomeArquivo) {
-    FILE* f = fopen(nomeArquivo, "r");
-    if (f == NULL) return; // Arquivo não existe ainda
-
-    char buffer[256];
-    while (fgets(buffer, sizeof(buffer), f)) {
-        // Remove o \n do final
-        buffer[strcspn(buffer, "\n")] = 0;
-        if (strlen(buffer) > 0) {
-            push(pi, buffer);
-        }
-    }
-    fclose(f);
-}
-
-void limpar_buffer(){
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    printf(COR_AZUL "---------------\n" COR_RESET);
 }
