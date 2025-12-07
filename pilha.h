@@ -1,42 +1,37 @@
 #ifndef PILHA_H
 #define PILHA_H
 
-#define COR_RESET    "\033[0m"
-#define COR_VERDE    "\033[0;32m"
-#define COR_VERMELHO "\033[0;31m"
-#define COR_AMARELO  "\033[1;33m"
-#define COR_CYAN     "\033[0;36m"
+#include "utils.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// Definição de uma estrutura de Tarefa (simplificada)
+typedef struct {
+    char nome[100];
+    // Adicionar outros campos da tarefa se necessário
+} Tarefa;
 
-#ifdef _WIN32
-    #define LIMPAR_TELA "cls"
-#else
-    #define LIMPAR_TELA "clear"
-#endif
+// Estrutura de Nó da Pilha
+typedef struct NoPilha {
+    Tarefa tarefa;
+    struct NoPilha* prox;
+} NoPilha;
 
-typedef struct No{
-    char* texto;
-    struct No* prox;
-} No;
-
-typedef struct Pilha{
-    No* topo;
+// Estrutura da Pilha
+typedef struct {
+    NoPilha* topo;
+    int tamanho;
 } Pilha;
 
-// Protótipos
+// Protótipos das funções da Pilha (para compilar main.c)
 Pilha* criar_pilha();
-void push(Pilha* pi, const char* texto); 
-char* pop(Pilha* pi); 
-void display(Pilha* pi); 
-void limparPilha(Pilha* pi);
-void destruirPilha(Pilha* pi);
-int estaVazia(Pilha* pi);
-int contarItens(Pilha* pi);
-void salvarPilha(Pilha* pi, char* nomeArquivo);
-void carregarPilha(Pilha* pi, char* nomeArquivo);
-void limpar_buffer();
+void liberarPilha(Pilha* p);
+void push(Pilha* p, const char* nome_tarefa);
+Tarefa* pop(Pilha* p);
+Tarefa* verTopo(Pilha* p);
+int estaVazia(Pilha* p);
+int contarItens(Pilha* p);
+void limparPilha(Pilha* p);
+void carregarPilhaDeArquivo(Pilha* p, const char* nome_arquivo);
+void salvarPilhaEmArquivo(Pilha* p, const char* nome_arquivo);
+void exibirPilha(Pilha* p); // Função auxiliar para exibir
 
-#endif
+#endif // PILHA_H
