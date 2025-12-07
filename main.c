@@ -1,4 +1,5 @@
 #include "pilha.h" 
+#define ARQUIVO_DB "meus_dados.txt"
 
 // Correção para o Windows mostrar os caracteres bonitos (UTF-8)
 #ifdef _WIN32
@@ -12,6 +13,9 @@ int main() {
 
     Pilha* todo_list = criar_pilha(); 
     Pilha* redo_list = criar_pilha();
+
+    // 1. CARREGA AO INICIAR
+    carregarPilha(todo_list, ARQUIVO_DB);
 
     if (todo_list == NULL || redo_list == NULL) {
         printf(COR_VERMELHO "Erro fatal: Falha de memória.\n" COR_RESET);
@@ -125,7 +129,6 @@ int main() {
 
             case 6:{
                 system(LIMPAR_TELA);
-                imprimirGuts();
                 printf("\nSaindo e limpando a memória...\n");
                 break;
             }
@@ -139,9 +142,10 @@ int main() {
         }
 
     } while (opcao != 6);
+
+    salvarPilha(todo_list, ARQUIVO_DB);
     
     destruirPilha(todo_list);
-    destruirPilha(redo_list);
 
     #ifdef _WIN32
     Sleep(2000); 
