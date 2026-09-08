@@ -1,82 +1,121 @@
-# 📝 To-Do List com Pilha e Grafo de Dependências em C
+# 📝 Task Manager — Stacks & Graphs in C
 
-Um projeto simples em C que implementa uma "To-Do List" (Lista de Tarefas) básica, rodando no terminal. A aplicação utiliza a estrutura de dados **Pilha (Stack)** para gerenciar os itens da lista e a estrutura de **Grafo** para mapear as dependências entre as tarefas.
+A command-line task manager developed as an academic project to practice **data structures, algorithms, pointers, and dynamic memory management in C**.
 
-Este projeto foi criado como um exercício prático da faculdade para demonstrar o uso de pilhas, grafos, gerenciamento de memória (`malloc`/`free`) e manipulação de ponteiros em C.
+The application combines two main concepts:
 
-Alunos: 
-João Manoel Freire,
-João Pedro Magalhães,
-Rafael Maia,
-Leonardo Freitas Barboza e
-Bruno Braga Ramos.
+* **Stack:** manages task creation and Undo/Redo operations using the LIFO principle.
+* **Dependency Graph:** represents relationships between tasks and supports traversal using BFS and DFS.
 
-## O Conceito da Pilha (LIFO)
+## 🎯 Project Goals
 
-A lógica da To-Do List para gerenciamento de tarefas é baseada em **LIFO (Last-In, First-Out)**, que é o princípio fundamental de uma Pilha. Isso significa que:
+The project was developed to practice:
 
-* O **último** item que você adiciona à lista é o **primeiro** que aparece para ser concluído.
+* Stack implementation and manipulation
+* Graph representation using adjacency lists
+* Breadth-First Search (BFS)
+* Depth-First Search (DFS)
+* Dynamic memory allocation with `malloc` / `free`
+* Pointer manipulation in C
+* Modular code organization
 
-## O Conceito do Grafo de Dependências (BFS/DFS)
+## 🚀 Features
 
-Para adicionar uma camada de complexidade e utilidade, o projeto foi estendido para incluir um **Grafo Não Direcionado** que mapeia as relações de dependência ou associação entre as tarefas.
+### Task Management
 
-*   **Vértices:** Cada tarefa é um vértice no grafo.
-*   **Arestas:** Uma aresta conecta duas tarefas que possuem uma relação de dependência mútua.
+* Add tasks to the stack
+* Complete and undo the most recent task
+* Redo previously undone tasks
+* View the top task
+* Display all tasks
+* Persist the current state before exiting
+* Release dynamically allocated memory safely
 
-O uso de algoritmos de travessia de grafos (BFS e DFS) permite analisar a estrutura de dependências das tarefas.
+### Dependency Graph
 
-## Funcionalidades
+* Create relationships between tasks
+* Find connected tasks using DFS
+* Check connectivity between tasks using BFS
+* Display the shortest path between two connected tasks
 
-O programa tem um menu simples com as seguintes operações, divididas em gerenciamento de Pilha e gerenciamento de Grafo:
+## 🏗️ Project Structure
 
-### Gerenciamento de Pilha (To-Do List)
+```text
+c-stack-undo-redo/
+├── main.c
+├── pilha.h
+├── pilha.c
+├── grafo.h
+├── grafo.c
+├── utils.h
+├── utils.c
+└── README.md
+```
 
-1.  **Adicionar novo item:** Empilha (`push`) uma nova tarefa no topo da pilha.
-2.  **Concluir/Desfazer último item (Undo):** Desempilha (`pop`) o item do topo da pilha (a tarefa mais recente) e o move para uma pilha de "Refazer".
-3.  **Refazer item desfeito (Redo):** Move o item da pilha de "Refazer" de volta para a pilha principal.
-4.  **Ver próximo item (Topo):** Apenas visualiza (`peek`) o item no topo da pilha, sem removê-lo.
-5.  **Mostrar todos os itens (Display):** Exibe todas as tarefas na lista.
-6.  **Sair:** Encerra o programa, salva o estado e libera toda a memória alocada (`free`) de forma segura.
+### Main Components
 
-### Gerenciamento de Grafo (Dependências)
+| File                  | Responsibility                           |
+| --------------------- | ---------------------------------------- |
+| `pilha.c` / `pilha.h` | Stack implementation and task management |
+| `grafo.c` / `grafo.h` | Graph representation, BFS and DFS        |
+| `utils.c` / `utils.h` | Utility functions and input handling     |
+| `main.c`              | Application flow and user interaction    |
 
-7.  **Adicionar Dependência:** Cria uma aresta não direcionada entre duas tarefas, registrando uma relação mútua.
-8.  **Ver Grupo de Tarefas Relacionadas (DFS):** Dado o nome de uma tarefa, utiliza a Busca em Profundidade (DFS) para encontrar e listar todas as tarefas que estão conectadas a ela (o componente conexo).
-9.  **Verificar Conexão entre Tarefas (BFS):** Dado o nome de duas tarefas, utiliza a Busca em Largura (BFS) para verificar se existe um caminho entre elas e, se houver, exibe o caminho mais curto.
+## 🧠 Data Structures & Algorithms
 
-## 📁 Estrutura do Código
+### Stack
 
-O código foi separado em múltiplos arquivos para melhor organização e modularidade:
+Tasks are managed using a stack-based structure. Undo and Redo operations move task states between stacks.
 
-*   **`pilha.h` / `pilha.c`**: Implementação da estrutura de dados Pilha para o gerenciamento básico da To-Do List.
-*   **`grafo.h` / `grafo.c`**: Implementação da estrutura de dados Grafo (Lista de Adjacência) e dos algoritmos de travessia (BFS e DFS) para o gerenciamento de dependências.
-*   **`utils.h` / `utils.c`**: Funções utilitárias, como a definição de cores para o terminal e a função para limpar o buffer de entrada (`limpar_buffer`).
-*   **`main.c`**: O programa principal que contém o menu, a lógica do usuário e faz a chamada às funções das Pilhas e do Grafo.
+### Dependency Graph
 
-## 🚀 Como Compilar e Executar
+Task relationships are represented using an adjacency-list graph.
 
-Para rodar este projeto, você precisa ter o git e um compilador C (como o `gcc`) instalados.
+* **DFS** is used to find the connected component of a task.
+* **BFS** is used to determine whether two tasks are connected and to retrieve the shortest path.
 
-1. Clone o repositório:
+## 🛠️ Technologies
 
-    ```bash
-    git clone https://github.com/JoaoManoelFMN/c-stack-undo-redo.git
-    ```
+* C
+* Data Structures
+* Graph Algorithms
+* Dynamic Memory Management
+* GCC
 
-2. Navegue até o diretório que você acabou de baixar:
-    ```bash
-    cd c-stack-undo-redo
-    ```
+## 🚀 Getting Started
 
-3. Compile o programa, incluindo todos os arquivos de implementação:
+### Requirements
 
-    ```bash
-    gcc -o task_manager main.c grafo.c pilha.c utils.c -Wall
-    ```
+* GCC or another C compiler
+* Git
 
-4. Execute o programa:
+### Clone
 
-    ```bash
-    ./task_manager
-    ```
+```bash
+git clone https://github.com/JoaoManoelFMN/c-stack-undo-redo.git
+cd c-stack-undo-redo
+```
+
+### Compile
+
+```bash
+gcc -o task_manager main.c grafo.c pilha.c utils.c -Wall
+```
+
+### Run
+
+```bash
+./task_manager
+```
+
+## 🎓 Academic Context
+
+Developed as a university project to apply concepts of **data structures, graph algorithms, memory management, and modular programming in C**.
+
+## 👥 Contributors
+
+* João Manoel Nunes
+* João Pedro Magalhães
+* Rafael Maia
+* Leonardo Freitas Barboza
+* Bruno Braga Ramos
